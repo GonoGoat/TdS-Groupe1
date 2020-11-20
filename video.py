@@ -1,7 +1,10 @@
 import cv2
 import numpy as np
 
+# Import de la vidéo
 cap = cv2.VideoCapture('vtest.avi')
+
+#
 frame_width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
 
 frame_height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
@@ -18,21 +21,21 @@ H = None
 ret, frame1 = cap.read()
 ret, frame2 = cap.read()
 
-diff = cv2.absdiff(frame1, frame2)
-cv2.imshow('Test', diff)
-
+# Tant que la vidéo est en cours
 while cap.isOpened():
-    # Différence entre 2 'frames' successives
+    # Différence entre 2 'frames' successives (frame 1 - frame 2)
+    # Différence absolue : Tout ce qui apparait et disparait
     diff = cv2.absdiff(frame1, frame2)
     # Convertion de cette différence en notions de gris
+    # Passage de la différence en RGB en notion de gris
     gray = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
     # retire le bruit grace au flou glaussien
     blur = cv2.GaussianBlur(gray, (5, 5), 0)
+    cv2.imshow(blur,diff)
     # (image à traiter, valeur du seuil, couleur des objets seuillés, type de seuil( ici binaire :
     # Seuil > objet : 0
     # Seuil < objet : couleur définie juste avant))
     _, thresh = cv2.threshold(blur, 20, 255, cv2.THRESH_BINARY)
-    cv2.imshow('Test', thresh)
     # Dilatation de l'image
     dilated = cv2.dilate(thresh, None, iterations=3)
     # retrouver les contours.

@@ -1,0 +1,16 @@
+absdiff(src1,src2)
+	Différence absolue entre src1 et src2
+	=> On capture tout ce qui apparait et disparait
+
+cvtColor(diff,COLOR.BGR2GRAY)
+	Passage de diff (RGB) dans les games de gris
+	=> Plus facile pour délimiter les contours
+
+GaussianBlur(gray,(x,y),sigx)
+	Flou gaussien sur une image : Réduction du bruit (filtre passe bas)
+	=> Convolution d'une image (gray) avec un kernel de Gauss de taille x y
+		déviation = intensité du flou(Si 0 : sigma = 0.3*((ksize-1)*0.5 - 1) + 0.8)
+
+threshold(src,val,color,type)
+	
+	
