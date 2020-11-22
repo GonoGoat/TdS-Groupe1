@@ -15,14 +15,20 @@ H = None
 
 ret, frame1 = cap.read()
 ret, frame2 = cap.read()
-ret, frame3 = cap.read()
-ret, frame4 = cap.read()
-ret, frame5 = cap.read()
-ret, frame6 = cap.read()
 diff = cv2.absdiff(frame1, frame2)
-cv2.imshow('Test', diff)
+cv2.imshow('Diff', diff)
 
-diff2 = cv2.absdiff(frame5, frame6)
-cv2.imshow('a', diff2)
+gray = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
+
+cv2.imshow('Gray', gray)
+
+blur = cv2.GaussianBlur(gray, (5, 5), 0)
+cv2.imshow('Blur', blur)
+
+_, thresh = cv2.threshold(blur, 20, 255, cv2.THRESH_BINARY)
+cv2.imshow('Thresh', thresh)
+
+dilated = cv2.dilate(thresh, None, iterations=3)
+cv2.imshow('dilate', dilated)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
