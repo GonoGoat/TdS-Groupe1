@@ -18,7 +18,7 @@ def FrameCapture():
     success, image = vidObj.read()
 
     # Saves the frames with frame-count
-    cv2.imwrite("assets\\images\\frame_%d.jpg" % 0, image)
+    cv2.imwrite("image\\frame_%d.jpg" % 0, image)
 
 
 FrameCapture()
