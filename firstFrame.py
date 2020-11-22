@@ -9,7 +9,7 @@ def FrameCapture():
     # Path to video file
     file = filedialog.askopenfilename(initialdir="C:",
                                       title="Choississez un fichier",
-                                      filetypes=(("mp4 files", "*.mp4"), ("all files", "*")));
+                                      filetypes=(("mp4 files", "*.mp4"), ("avi files", "*.avi"), ("mov files", "*.mov"), ("mkv files", "*.mkv"), ("all files", "*")));
 
     vidObj = cv2.VideoCapture(file)
 
