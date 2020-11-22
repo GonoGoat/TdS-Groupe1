@@ -19,6 +19,3 @@ def FrameCapture():
 
     # Saves the frames with frame-count
     cv2.imwrite("image\\frame_%d.jpg" % 0, image)
-
-
-FrameCapture()

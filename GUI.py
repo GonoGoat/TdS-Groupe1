@@ -1,5 +1,5 @@
 from tkinter import *
-from .firstFrame import FrameCapture
+from firstFrame import FrameCapture
 
 # Fenêtre principale
 window = Tk()
@@ -13,11 +13,15 @@ window.config(background='grey')
 
 #Seconde fenêtre fonction
 def open_url() :
-    newWindow = Toplevel(window)
-    newWindow.title('Vidéo')
-    newWindow.geometry('720x480')
-    newWindow.config(background="#4065A4")
-    FrameCapture()
+	newWindow = Toplevel(window)
+	newWindow.title('Vidéo')
+	newWindow.geometry('720x480')
+	newWindow.config(background="#4065A4")
+	FrameCapture()
+	
+
+	
+	
 	
 
 #Frame
