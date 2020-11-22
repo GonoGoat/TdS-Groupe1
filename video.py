@@ -10,6 +10,8 @@ fourcc = cv2.VideoWriter_fourcc('X', 'V', 'I', 'D')
 
 out = cv2.VideoWriter("output.avi", fourcc, 5.0, (1280, 720))
 
+total = 0
+
 W = None
 H = None
 
@@ -22,10 +24,9 @@ cv2.imshow('Test', diff)
 while cap.isOpened():
     # Différence entre 2 'frames' successives
     diff = cv2.absdiff(frame1, frame2)
-    print(diff)
     # Convertion de cette différence en notions de gris
     gray = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
-    # retire le bruit en grace au flou glaussien (filtre passe bande)
+    # retire le bruit grace au flou glaussien
     blur = cv2.GaussianBlur(gray, (5, 5), 0)
     # (image à traiter, valeur du seuil, couleur des objets seuillés, type de seuil( ici binaire :
     # Seuil > objet : 0
@@ -37,6 +38,10 @@ while cap.isOpened():
     # retrouver les contours.
     contours, _ = cv2.findContours(dilated, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     # Parcourir tout les contours de l'image
+
+    if W is None or H is None:
+        (H, W) = frame1.shape[:2]
+
     for contour in contours:
         # récupère les coordonnées du contour
         (x, y, w, h) = cv2.boundingRect(contour)
@@ -45,11 +50,18 @@ while cap.isOpened():
             continue
         # sinon : dessine un rectangle à l'emplacement plus haut
         cv2.rectangle(frame1, (x, y), (x + w, y + h), (0, 255, 0), 2)
-        cv2.putText(frame1, "Status: {}".format('Movement'), (10, 20), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 3)
-    # cv2.drawContours(frame1, contours, -1, (0, 255, 0), 2)
 
-    if W is None or H is None:
-        (H, W) = frame1.shape[:2]
+        M = cv2.moments(contour)
+        cX = int(M["m10"] / M["m00"])
+        cY = int(M["m01"] / M["m00"])
+
+        if (H//2)+2 > cY > (H//2)-2:
+            total += 1
+
+        cv2.circle(frame1, (cX, cY), 2, (255, 255, 255), -1)
+
+    cv2.putText(frame1, "Count: {}".format(total), (10, 20), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 3)
+    # cv2.drawContours(frame1, contours, -1, (0, 255, 0), 2)
 
     cv2.line(frame1, (0, H // 2), (W, H // 2), (0, 255, 255), 2)
 
@@ -58,6 +70,9 @@ while cap.isOpened():
     cv2.imshow("feed", frame1)
     frame1 = frame2
     ret, frame2 = cap.read()
+
+    if frame2 is None:
+        break
 
     if cv2.waitKey(40) == 27:
         break
