@@ -13,15 +13,16 @@ out = cv2.VideoWriter("output.avi", fourcc, 5.0, (1280, 720))
 totalUp = 0
 totalDown = 0
 
+contours = None
+lastCenter = None
+
 testX = None
 testY = None
-
-W = None
-H = None
 
 ret, frame1 = cap.read()
 ret, frame2 = cap.read()
 
+(H, W) = frame1.shape[:2]
 
 while cap.isOpened():
     # Différence entre 2 'frames' successives
@@ -37,13 +38,15 @@ while cap.isOpened():
     # Dilatation de l'image
     dilated = cv2.dilate(thresh, None, iterations=3)
     # retrouver les contours.
+    if contours is not None:
+        lastContour = contours
     contours, _ = cv2.findContours(dilated, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+
+    contours = enumerate(contours)
+
     # Parcourir tout les contours de l'image
+    for index, contour in contours:
 
-    if W is None or H is None:
-        (H, W) = frame1.shape[:2]
-
-    for contour in contours:
         # créé un rectangle sur le contour
         (x, y, w, h) = cv2.boundingRect(contour)
         # si la surface du contour est trop petite : pas de rectangle et passe au suivant
@@ -58,11 +61,13 @@ while cap.isOpened():
         cX = int(M["m10"] / M["m00"])
         cY = int(M["m01"] / M["m00"])
 
-        if testY is not None:
-            if cY == (H // 2) and (H // 2) < testY:
+        if testY is not None and (H/2)+2 > cY > (H/2)-2:
+            if cY < testY:
+                print(cY, ' < ', testY)
                 totalUp += 1
 
-            if cY == (H // 2) and (H // 2) > testY:
+            elif cY > testY:
+                print(cY, ' > ', testY)
                 totalDown += 1
 
         # point central du gars
@@ -71,11 +76,11 @@ while cap.isOpened():
         testX = cX
         testY = cY
 
-    cv2.putText(frame1, "A: {}".format(totalUp), (10, 20), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 3)
-    cv2.putText(frame1, "B: {}".format(totalDown), (10, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 3)
+    cv2.putText(frame1, "Up: {}".format(totalUp), (10, 20), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 3)
+    cv2.putText(frame1, "Down: {}".format(totalDown), (10, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 3)
     # cv2.drawContours(frame1, contours, -1, (0, 255, 0), 2)
 
-    cv2.line(frame1, (0, H // 2), (W, H // 2), (0, 255, 255), 2)
+    cv2.line(frame1, (0, H / 2), (W, H / 2), (0, 255, 255), 2)
 
     image = cv2.resize(frame1, (1280, 720))
     out.write(image)
