@@ -11,6 +11,36 @@ GaussianBlur(gray,(x,y),sigx)
 	=> Convolution d'une image (gray) avec un kernel de Gauss de taille x y
 		déviation = intensité du flou(Si 0 : sigma = 0.3*((ksize-1)*0.5 - 1) + 0.8)
 
-threshold(src,val,color,type)
+threshold(src,thresh,val,color,type)
+	Converti une image selon un seuil et un mode de transformation
+	thresh = seuil d'intensité
+	maxval = valeur à prendre en fonction dy type
+	type = Mode de conversion
+		THRESH_BINARY : tout pixel devient  maxval (255 : blanc) si au-dessus du seuil
+								    devient 0 (noir) si en-dessous du seuil
+	=> Converti l'image en série de pixel noir et blanc en fonction de l'intensité
+
+dilate(src,kernel,iterations=x)
+	Convolution d'une image par le kernel un nombre de fois x
+	Objectif : Elargir les blanc et noir réduire les trous
+
+findcontours(src,mode,method)
+	Contour : toute série de points délimitant une forme ayant même intensité
+	Récupération de tous les contours dans un tableau (commencant par coin inférieur droit)
+	Algo de Satoshi Suzuki, université de Shizuoka, Japon
+	mode = Mode de récupération des contours
+		RETR_TREE : Donné tous les contours avec hiérarchie (si contours inclus dans d'autres)
+	method = Méthode d'apprmixation des contours
+		CHAIN_APPROX_SIMPLE : Donnes les coordonnées des extrémités différentes des traits verticaux/diagonaux/horizontaux
+			Ex : Rectangle = 4 coins
+
+boundingRect(src)
+	Rectangle à limite minimum : rectangle juste asssez grand que pour contenir toutes les formes fournies
+	Donne coordonnées du coin supérieur droit (+largeur/hauteur) du rectangle contenant le contour
+
+contourArea(src)
+	Calcul de la surface d'un contour via le théorème de Green
+
+
 	
 	

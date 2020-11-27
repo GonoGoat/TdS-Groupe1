@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+import time
 
 # Import de la vidéo
 cap = cv2.VideoCapture('vtest.avi')
@@ -31,7 +32,6 @@ while cap.isOpened():
     gray = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
     # retire le bruit grace au flou glaussien
     blur = cv2.GaussianBlur(gray, (5, 5), 0)
-    cv2.imshow(blur,diff)
     # (image à traiter, valeur du seuil, couleur des objets seuillés, type de seuil( ici binaire :
     # Seuil > objet : 0
     # Seuil < objet : couleur définie juste avant))
@@ -79,6 +79,7 @@ while cap.isOpened():
 
     if cv2.waitKey(40) == 27:
         break
+    time.sleep(0.1)
 
 cv2.destroyAllWindows()
 cap.release()
