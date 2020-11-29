@@ -35,6 +35,7 @@ while cap.isOpened():
     # Seuil > objet : 0
     # Seuil < objet : couleur définie juste avant))
     _, thresh = cv2.threshold(blur, 20, 255, cv2.THRESH_BINARY)
+    cv2.imshow('tresh', thresh)
     # Dilatation de l'image
     dilated = cv2.dilate(thresh, None, iterations=3)
     # retrouver les contours.
@@ -80,7 +81,7 @@ while cap.isOpened():
     cv2.putText(frame1, "Down: {}".format(totalDown), (10, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 3)
     # cv2.drawContours(frame1, contours, -1, (0, 255, 0), 2)
 
-    cv2.line(frame1, (0, H / 2), (W, H / 2), (0, 255, 255), 2)
+    cv2.line(frame1, (0, int(H / 2)), (W, int(H / 2)), (0, 255, 255), 2)
 
     image = cv2.resize(frame1, (1280, 720))
     out.write(image)

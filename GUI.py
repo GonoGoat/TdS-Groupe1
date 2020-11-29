@@ -21,9 +21,6 @@ def open_url() :
 	
 
 	
-	
-	
-
 #Frame
 frameOpen = Frame(window, bg='grey', bd=1)
 frameCount = Frame(window, bg='grey', bd=1)

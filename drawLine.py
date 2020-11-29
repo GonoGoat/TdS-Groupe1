@@ -5,8 +5,8 @@ def mouse_drawing(event, x, y, flags, params):
     if event == cv2.EVENT_LBUTTONDOWN:
         coords.append((x,y))
 
-originalImage = cv2.imread('room.png') 
-image = cv2.imread('room.png') 
+originalImage = cv2.imread('./image/frame_0.jpg')
+image = cv2.imread('./image/frame_0.jpg')
 
 cap = cv2.VideoCapture(0)
 
