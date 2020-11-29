@@ -1,5 +1,8 @@
 from tkinter import *
+import cv2
 from firstFrame import FrameCapture
+from video import videoAnalyse
+import time
 
 # Fenêtre principale
 window = Tk()
@@ -11,16 +14,32 @@ window.minsize(480, 360)
 #window.iconbitmap('') import d'image
 window.config(background='grey')
 
+
+coords = []
+
 #Seconde fenêtre fonction
 def open_url() :
-	newWindow = Toplevel(window)
-	newWindow.title('Vidéo')
-	newWindow.geometry('720x480')
-	newWindow.config(background="#4065A4")
-	FrameCapture()
-	
+    FrameCapture()
+    originalImage = cv2.imread('./image/frame_0.jpg')
+    cv2.namedWindow("Frame")
+    cv2.setMouseCallback("Frame", mouse_drawing)
+    cv2.imshow("Frame", originalImage)
 
-	
+    videoAnalyse(coords[0], coords[1])
+
+def newWindow() :
+    newWindow = Toplevel(window)
+    newWindow.title('Vidéo')
+    newWindow.geometry('720x480')
+    newWindow.config(background="#4065A4")
+
+
+def mouse_drawing(event, x, y, flags, params):
+    if event == cv2.EVENT_LBUTTONDOWN:
+        coords.append((x,y))
+        print(coords)
+
+
 #Frame
 frameOpen = Frame(window, bg='grey', bd=1)
 frameCount = Frame(window, bg='grey', bd=1)

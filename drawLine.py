@@ -15,7 +15,7 @@ cv2.setMouseCallback("Frame", mouse_drawing)
 
 coords = []
 
-while True:
+"""while length():
     if len(coords) == 3:
         coords = []
         image = originalImage
@@ -29,3 +29,4 @@ while True:
 
 cap.realease()
 cv2.destroyAllWindows()
+"""
