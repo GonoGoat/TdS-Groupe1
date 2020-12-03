@@ -25,7 +25,7 @@ def open_url() :
     cv2.setMouseCallback("Frame", mouse_drawing)
     cv2.imshow("Frame", originalImage)
 
-    videoAnalyse(coords[0], coords[1])
+
 
 def newWindow() :
     newWindow = Toplevel(window)
@@ -38,6 +38,10 @@ def mouse_drawing(event, x, y, flags, params):
     if event == cv2.EVENT_LBUTTONDOWN:
         coords.append((x,y))
         print(coords)
+    if len(coords) ==2 :
+        cv2.destroyWindow('Frame')
+        videoAnalyse(coords[0], coords[1])
+
 
 
 #Frame
