@@ -19,6 +19,7 @@ coords = []
 sens = "H"
 toSend = []
 video = "Essai"
+path = []
 
 
 
@@ -29,7 +30,7 @@ def nothing(x):
 #Seconde fenêtre fonction
 
 def open_url() :
-    FrameCapture()
+    path.append(FrameCapture())
     originalImage = cv2.imread('./image/frame_0.jpg')
     cv2.namedWindow("Frame")
     cv2.setMouseCallback("Frame", mouse_drawing)
@@ -56,7 +57,9 @@ def mouse_drawing(event, x, y, flags, params):
             toSend.append(x)
             toSend.append(sens)
         cv2.destroyWindow('Frame')
-        videoAnalyse(toSend[0], toSend[1])
+        videoAnalyse(toSend[0], toSend[1],path[0])
+        path.clear()
+        toSend.clear()
     """
     if len(coords) == 1:
         xdiff = abs(coords[0][0] - coords[1][0])
