@@ -8,7 +8,7 @@ from tkinter import filedialog
 def FrameCapture():
     # Path to video file
     file = filedialog.askopenfilename(initialdir="C:",
-                                      title="Choississez un fichier",
+                                      title="Choisissez un fichier vidéo",
                                       filetypes=(("mp4 files", "*.mp4"), ("avi files", "*.avi"), ("mov files", "*.mov"), ("mkv files", "*.mkv"), ("all files", "*")));
 
     vidObj = cv2.VideoCapture(file)
