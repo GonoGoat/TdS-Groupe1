@@ -1,9 +1,9 @@
 import cv2
 import numpy as np
 
-def videoAnalyse(point, sens) :
+def videoAnalyse(point, sens, video) :
 
-    cap = cv2.VideoCapture('vtest.avi')
+    cap = cv2.VideoCapture(video)
     frame_width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
 
     frame_height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
