@@ -43,10 +43,8 @@ def videoAnalyse(point, sens) :
         # retrouver les contours.
         contours, _ = cv2.findContours(dilated, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
-        contours = enumerate(contours)
-
         # Parcourir tout les contours de l'image
-        for index, contour in contours:
+        for contour in contours:
 
             # créé un rectangle sur le contour
             (x, y, w, h) = cv2.boundingRect(contour)
