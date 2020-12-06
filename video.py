@@ -1,8 +1,7 @@
 import cv2
 import numpy as np
 
-def videoAnalyse(point, sens) :
-
+def videoAnalyse(point, sens, entree) :
     cap = cv2.VideoCapture('vtest.avi')
     frame_width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
 
@@ -85,9 +84,12 @@ def videoAnalyse(point, sens) :
 
             testX = cX
             testY = cY
-
-        cv2.putText(frame1, "Up: {}".format(totalUp), (10, 20), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 3)
-        cv2.putText(frame1, "Down: {}".format(totalDown), (10, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 3)
+        if(entree == "up" or entree == "right"):
+            cv2.putText(frame1, "Entrees: {}".format(totalUp), (10, 20), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 3)
+            cv2.putText(frame1, "Sorties: {}".format(totalDown), (10, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 3)
+        elif(entree == "down" or entree == "left"):
+            cv2.putText(frame1, "Entrees: {}".format(totalDown), (10, 20), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 3)
+            cv2.putText(frame1, "Sorties: {}".format(totalUp), (10, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 3)
         # cv2.drawContours(frame1, contours, -1, (0, 255, 0), 2)
         if sens == "H":
             cv2.line(frame1, (0, point), (H,point), (0, 255, 255), 2)
