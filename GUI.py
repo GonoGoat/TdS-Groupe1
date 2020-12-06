@@ -16,16 +16,24 @@ window.config(background='grey')
 
 
 coords = []
+sens = "H"
+toSend = []
+video = "Essai"
+
+
+
+def nothing(x):
+    pass
+
 
 #Seconde fenêtre fonction
+
 def open_url() :
     FrameCapture()
     originalImage = cv2.imread('./image/frame_0.jpg')
     cv2.namedWindow("Frame")
     cv2.setMouseCallback("Frame", mouse_drawing)
     cv2.imshow("Frame", originalImage)
-
-
 
 def newWindow() :
     newWindow = Toplevel(window)
@@ -36,12 +44,33 @@ def newWindow() :
 
 def mouse_drawing(event, x, y, flags, params):
     if event == cv2.EVENT_LBUTTONDOWN:
-        coords.append((x,y))
-        print(coords)
-    if len(coords) ==2 :
-        cv2.destroyWindow('Frame')
-        videoAnalyse(coords[0], coords[1])
+        if(buttonSens['text'] == "Vertical"):
+            sens="V"
+        else:
+            sens="H"
 
+        if sens == "H":
+            toSend.append(y)
+            toSend.append(sens)
+        else:
+            toSend.append(x)
+            toSend.append(sens)
+        cv2.destroyWindow('Frame')
+        videoAnalyse(toSend[0], toSend[1])
+    """
+    if len(coords) == 1:
+        xdiff = abs(coords[0][0] - coords[1][0])
+        ydiff = abs(coords[0][1] - coords[1][1])
+
+        if xdiff > ydiff:
+            toSend.append(coords[0][1])
+            toSend.append("H")
+        else:
+            toSend.append(coords[0][0])
+            toSend.append("V")
+        cv2.destroyWindow('Frame')
+        videoAnalyse(toSend[0], toSend[1])
+"""
 
 
 #Frame
@@ -66,6 +95,15 @@ label_inPass.pack(side=TOP)
 #Button
 button_add = Button(frameOpen, text="Choisir", font=("Arial",15), bg="white", fg="grey", command=open_url)
 button_add.pack(pady=25, fill=X)
+
+def getTextButton():
+    if(buttonSens['text'] == "Vertical"):
+        buttonSens.config(text="Horizontal")
+    else:
+        buttonSens.config(text="Vertical")
+
+buttonSens = Button(frameOpen, text="Horizontal", font=("Arial",15), bg="white", fg="grey", command=getTextButton)
+buttonSens.pack(pady=50, fill=X)
 
 #link = Entry(frameOpen, font=('Arial', 20), bg="#4065A4", fg='white')
 #link.pack()

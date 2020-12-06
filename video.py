@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 
-def videoAnalyse(point1, point2) :
+def videoAnalyse(point, sens) :
 
     cap = cv2.VideoCapture('vtest.avi')
     frame_width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
@@ -63,15 +63,24 @@ def videoAnalyse(point1, point2) :
             M = cv2.moments(contour)
             cX = int(M["m10"] / M["m00"])
             cY = int(M["m01"] / M["m00"])
+            if sens == "V":
+                if testX is not None and point+2 > cX > point-2:
+                    if cX < testX:
+                        print(cX, ' < ', testX)
+                        totalUp += 1
 
-            if testY is not None and (H/2)+2 > cY > (H/2)-2:
-                if cY < testY:
-                    print(cY, ' < ', testY)
-                    totalUp += 1
+                    elif cX > testX:
+                        print(cX, ' > ', testX)
+                        totalDown += 1
+            elif sens == "H":
+                if testY is not None and point+2 > cY > point-2:
+                    if cY < testY:
+                        print(cY, ' < ', testY)
+                        totalUp += 1
 
-                elif cY > testY:
-                    print(cY, ' > ', testY)
-                    totalDown += 1
+                    elif cY > testY:
+                        print(cY, ' > ', testY)
+                        totalDown += 1
 
             # point central du gars
             cv2.circle(frame1, (cX, cY), 2, (255, 255, 255), -1)
@@ -82,9 +91,10 @@ def videoAnalyse(point1, point2) :
         cv2.putText(frame1, "Up: {}".format(totalUp), (10, 20), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 3)
         cv2.putText(frame1, "Down: {}".format(totalDown), (10, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 3)
         # cv2.drawContours(frame1, contours, -1, (0, 255, 0), 2)
-
-        cv2.line(frame1, point1, point2, (0, 255, 255), 2)
-
+        if sens == "H":
+            cv2.line(frame1, (0, point), (H,point), (0, 255, 255), 2)
+        else:
+            cv2.line(frame1, (point, 0), (point, W), (0, 255, 255), 2)
         image = cv2.resize(frame1, (1280, 720))
         out.write(image)
         cv2.imshow("feed", frame1)
