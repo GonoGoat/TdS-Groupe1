@@ -41,8 +41,6 @@ def videoAnalyse(point, sens) :
         # Dilatation de l'image
         dilated = cv2.dilate(thresh, None, iterations=3)
         # retrouver les contours.
-        if contours is not None:
-            lastContour = contours
         contours, _ = cv2.findContours(dilated, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
         contours = enumerate(contours)
