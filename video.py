@@ -1,9 +1,8 @@
 import cv2
 import numpy as np
 
-def videoAnalyse(point, sens, video) :
-
-    cap = cv2.VideoCapture(video)
+def videoAnalyse(point, sens, entree) :
+    cap = cv2.VideoCapture('vtest.avi')
     frame_width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
 
     frame_height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
@@ -14,7 +13,6 @@ def videoAnalyse(point, sens, video) :
 
     totalUp = 0
     totalDown = 0
-
     contours = None
     lastCenter = None
 
@@ -41,14 +39,10 @@ def videoAnalyse(point, sens, video) :
         # Dilatation de l'image
         dilated = cv2.dilate(thresh, None, iterations=3)
         # retrouver les contours.
-        if contours is not None:
-            lastContour = contours
         contours, _ = cv2.findContours(dilated, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
-        contours = enumerate(contours)
-
         # Parcourir tout les contours de l'image
-        for index, contour in contours:
+        for contour in contours:
 
             # créé un rectangle sur le contour
             (x, y, w, h) = cv2.boundingRect(contour)
@@ -87,9 +81,12 @@ def videoAnalyse(point, sens, video) :
 
             testX = cX
             testY = cY
-
-        cv2.putText(frame1, "Up: {}".format(totalUp), (10, 20), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 3)
-        cv2.putText(frame1, "Down: {}".format(totalDown), (10, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 3)
+        if(entree == "up" or entree == "right"):
+            cv2.putText(frame1, "Entrees: {}".format(totalUp), (10, 20), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 3)
+            cv2.putText(frame1, "Sorties: {}".format(totalDown), (10, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 3)
+        elif(entree == "down" or entree == "left"):
+            cv2.putText(frame1, "Entrees: {}".format(totalDown), (10, 20), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 3)
+            cv2.putText(frame1, "Sorties: {}".format(totalUp), (10, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 3)
         # cv2.drawContours(frame1, contours, -1, (0, 255, 0), 2)
         if sens == "H":
             cv2.line(frame1, (0, point), (H,point), (0, 255, 255), 2)
@@ -109,4 +106,3 @@ def videoAnalyse(point, sens, video) :
 
     cv2.destroyAllWindows()
     cap.release()
-    out.release()
