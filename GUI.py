@@ -3,8 +3,8 @@ import cv2
 import time
 from firstFrame import FrameCapture
 
-def videoAnalyse(point, sens, entree):
-    cap = cv2.VideoCapture('vtest.avi')
+def videoAnalyse(point, sens, entree, video):
+    cap = cv2.VideoCapture(video)
     frame_width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
 
     frame_height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
@@ -136,7 +136,7 @@ def nothing(x):
 # Seconde fenêtre fonction
 
 def open_url():
-    FrameCapture()
+    path.append(FrameCapture())
     originalImage = cv2.imread('./image/frame_0.jpg')
     cv2.namedWindow("Frame")
     cv2.setMouseCallback("Frame", mouse_drawing)
@@ -173,7 +173,9 @@ def mouse_drawing(event, x, y, flags, params):
         toSend.append(sens)
         toSend.append(entree)
         cv2.destroyWindow('Frame')
-        videoAnalyse(toSend[0], toSend[1], toSend[2])
+        videoAnalyse(toSend[0], toSend[1], toSend[2], path[0])
+        path.clear()
+        toSend.clear()
     """
     if len(coords) == 1:
         xdiff = abs(coords[0][0] - coords[1][0])
