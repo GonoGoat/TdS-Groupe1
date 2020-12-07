@@ -1,1 +1,8 @@
 myvenv/
+*.pyc
+
+*.xml
+
+*.iml
+
+output.avi

@@ -14,7 +14,6 @@ def videoAnalyse(point, sens) :
 
     totalUp = 0
     totalDown = 0
-
     contours = None
     lastCenter = None
 
