@@ -106,4 +106,3 @@ def videoAnalyse(point, sens, entree) :
 
     cv2.destroyAllWindows()
     cap.release()
-    out.release()
