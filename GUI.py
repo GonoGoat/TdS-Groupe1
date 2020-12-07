@@ -129,8 +129,8 @@ window.minsize(480, 360)
 window.config(background='grey')
 
 
-coords = []
 sens = "H"
+entree = "up"
 toSend = []
 video = "Essai"
 
@@ -159,17 +159,26 @@ def mouse_drawing(event, x, y, flags, params):
     if event == cv2.EVENT_LBUTTONDOWN:
         if(buttonSens['text'] == "Vertical"):
             sens="V"
+            if(buttonEntree['text'] == "Extérieur - Intérieur"):
+                entree = "right"
+            else:
+                entree = "left"
         else:
             sens="H"
+            if(buttonEntree['text'] == "Intérieur\nExtérieur"):
+                entree = "up"
+            else:
+                entree = "down" 
 
         if sens == "H":
             toSend.append(y)
-            toSend.append(sens)
+            
         else:
             toSend.append(x)
-            toSend.append(sens)
+        toSend.append(sens)
+        toSend.append(entree)
         cv2.destroyWindow('Frame')
-        videoAnalyse(toSend[0], toSend[1])
+        videoAnalyse(toSend[0], toSend[1], toSend[2])
     """
     if len(coords) == 1:
         xdiff = abs(coords[0][0] - coords[1][0])
@@ -220,11 +229,29 @@ button_add.pack(pady=25, fill=X)
 def getTextButton():
     if(buttonSens['text'] == "Vertical"):
         buttonSens.config(text="Horizontal")
+        buttonEntree.config(text="Intérieur\nExtérieur")
     else:
         buttonSens.config(text="Vertical")
+        buttonEntree.config(text="Intérieur - Extérieur")
+
+def setEntree():
+    if(buttonEntree['text'] == "Intérieur\nExtérieur"):
+        buttonEntree.config(text="Extérieur\nIntérieur")
+    elif(buttonEntree['text'] == "Extérieur\nIntérieur"):
+        buttonEntree.config(text="Intérieur\nExtérieur")
+    elif(buttonEntree['text'] == "Extérieur - Intérieur"):
+        buttonEntree.config(text="Intérieur - Extérieur")
+    else:
+        buttonEntree.config(text="Extérieur - Intérieur")
+
+
 
 buttonSens = Button(frameOpen, text="Horizontal", font=("Arial",15), bg="white", fg="grey", command=getTextButton)
-buttonSens.pack(pady=50, fill=X)
+buttonSens.pack(pady=40, fill=X)
+
+
+buttonEntree = Button(frameOpen, text="Intérieur\nExtérieur", font=("Arial",15), bg="white", fg="grey", command=setEntree)
+buttonEntree.pack(pady=60, fill=X)
 
 #link = Entry(frameOpen, font=('Arial', 20), bg="#4065A4", fg='white')
 #link.pack()
