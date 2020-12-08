@@ -1,5 +1,4 @@
 import cv2
-import numpy as np
 
 def videoAnalyse(point, sens, entree) :
     cap = cv2.VideoCapture('vtest.avi')
