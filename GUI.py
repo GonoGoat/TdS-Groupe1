@@ -5,10 +5,6 @@ from firstFrame import FrameCapture
 
 def videoAnalyse(point, sens, entree, video):
     cap = cv2.VideoCapture(video)
-    frame_width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
-
-    frame_height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
-
     fourcc = cv2.VideoWriter_fourcc('X', 'V', 'I', 'D')
 
     out = cv2.VideoWriter("output.avi", fourcc, 5.0, (1280, 720))
@@ -93,9 +89,9 @@ def videoAnalyse(point, sens, entree, video):
             cv2.putText(frame1, "Sorties: {}".format(totalUp), (10, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 3)
         # cv2.drawContours(frame1, contours, -1, (0, 255, 0), 2)
         if sens == "H":
-            cv2.line(frame1, (0, point), (H,point), (0, 255, 255), 2)
+            cv2.line(frame1, (0, point), (W,point), (0, 255, 255), 2)
         else:
-            cv2.line(frame1, (point, 0), (point, W), (0, 255, 255), 2)
+            cv2.line(frame1, (point, 0), (point, H), (0, 255, 255), 2)
         image = cv2.resize(frame1, (1280, 720))
         out.write(image)
         cv2.imshow("feed", frame1)
