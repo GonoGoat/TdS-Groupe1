@@ -85,10 +85,10 @@ def videoAnalyse(point, sens, entree, video):
 
             testX = cX
             testY = cY
-        if entree == "up" or entree == "right":
+        if entree == "up" or entree == "left":
             cv2.putText(frame1, "Entrees: {}".format(totalUp), (10, 20), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 3)
             cv2.putText(frame1, "Sorties: {}".format(totalDown), (10, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 3)
-        elif entree == "down" or entree == "left":
+        elif entree == "down" or entree == "right":
             cv2.putText(frame1, "Entrees: {}".format(totalDown), (10, 20), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 3)
             cv2.putText(frame1, "Sorties: {}".format(totalUp), (10, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 3)
         # cv2.drawContours(frame1, contours, -1, (0, 255, 0), 2)
@@ -154,13 +154,13 @@ def mouse_drawing(event, x, y, flags, params):
     if event == cv2.EVENT_LBUTTONDOWN:
         if (buttonSens['text'] == "Vertical"):
             sens = "V"
-            if (buttonEntree['text'] == "Extérieur - Intérieur"):
+            if (buttonEntree['text'] == "←Extérieur - Intérieur→"):
                 entree = "right"
             else:
                 entree = "left"
         else:
             sens = "H"
-            if (buttonEntree['text'] == "Intérieur\nExtérieur"):
+            if (buttonEntree['text'] == "↑Intérieur\nExtérieur↓"):
                 entree = "up"
             else:
                 entree = "down"
@@ -233,27 +233,27 @@ button_add.pack(pady=25, fill=X)
 def getTextButton():
     if (buttonSens['text'] == "Vertical"):
         buttonSens.config(text="Horizontal")
-        buttonEntree.config(text="Intérieur\nExtérieur")
+        buttonEntree.config(text="↑Intérieur\nExtérieur↓")
     else:
         buttonSens.config(text="Vertical")
-        buttonEntree.config(text="Intérieur - Extérieur")
+        buttonEntree.config(text="←Intérieur - Extérieur→")
 
 
 def setEntree():
-    if (buttonEntree['text'] == "Intérieur\nExtérieur"):
-        buttonEntree.config(text="Extérieur\nIntérieur")
-    elif (buttonEntree['text'] == "Extérieur\nIntérieur"):
-        buttonEntree.config(text="Intérieur\nExtérieur")
-    elif (buttonEntree['text'] == "Extérieur - Intérieur"):
-        buttonEntree.config(text="Intérieur - Extérieur")
+    if (buttonEntree['text'] == "↑Intérieur\nExtérieur↓"):
+        buttonEntree.config(text="↑Extérieur\nIntérieur↓")
+    elif (buttonEntree['text'] == "↑Extérieur\nIntérieur↓"):
+        buttonEntree.config(text="↑Intérieur\nExtérieur↓")
+    elif (buttonEntree['text'] == "←Extérieur - Intérieur→"):
+        buttonEntree.config(text="←Intérieur - Extérieur→")
     else:
-        buttonEntree.config(text="Extérieur - Intérieur")
+        buttonEntree.config(text="←Extérieur - Intérieur→")
 
 
 buttonSens = Button(frameOpen, text="Horizontal", font=("Arial", 15), bg="white", fg="grey", command=getTextButton)
 buttonSens.pack(pady=40, fill=X)
 
-buttonEntree = Button(frameOpen, text="Intérieur\nExtérieur", font=("Arial", 15), bg="white", fg="grey",
+buttonEntree = Button(frameOpen, text="↑Intérieur\nExtérieur↓", font=("Arial", 15), bg="white", fg="grey",
                       command=setEntree)
 buttonEntree.pack(pady=60, fill=X)
 
