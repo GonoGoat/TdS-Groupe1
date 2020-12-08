@@ -1,5 +1,5 @@
 from tkinter import *
-import cv2
+from cv2 import cv2
 import time
 from firstFrame import FrameCapture
 
